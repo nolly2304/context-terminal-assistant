@@ -1,0 +1,58 @@
+# ---------------------------------------------------------------
+# PROJECT RULES (from the PDD: risks R5/R6 and the ethics section)
+# This repository is PUBLIC. It holds code and aggregate results only.
+# Never commit raw command histories, volunteered data, participant
+# data, consent forms or secrets.
+# ---------------------------------------------------------------
+
+# Datasets and anything derived from individual histories
+data/*
+!data/README.md
+*.history
+*_history
+.bash_history
+.zsh_history
+histories/
+participants/
+consent/
+study-data/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.*
+config.local.*
+
+# Local AI models and caches
+models/
+*.gguf
+*.safetensors
+*.bin
+*.onnx
+.cache/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+
+# Editors and OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
