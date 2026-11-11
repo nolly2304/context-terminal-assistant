@@ -27,3 +27,21 @@ Short records of design and technology decisions, with the evidence behind them.
 **Decision.** In the hybrid ranker (P4/P5), context such as the working directory will add to a candidate's score rather than restrict the candidates to those seen in that context.
 
 **Why.** On KYPO, a predictor that ranked commands by their frequency in the current directory was significantly *worse* than one ignoring the directory (−1.4 pp top-1). Splitting short histories by directory leaves too little data per directory. A blended score keeps the user's overall habits and lets context nudge the ranking. To be confirmed on my own long-term history, where directory may be more informative.
+
+## D5 — Bash only (11 Nov 2026)
+
+**Decision.** The assistant targets bash 4.4+ on Linux, including remote servers over SSH. Zsh, fish and PowerShell are out of scope; macOS is supported only with a modern bash installed. This narrows the PDD, which planned bash and zsh.
+
+**Why.** Supervisor feedback: POSIX is the base command line, bash is the standard shell built on it, and PowerShell is not POSIX-compatible. Bash is also the default on the Linux servers the project targets, and focusing on one shell leaves more time for prediction and evaluation.
+
+## D6 — Build on bash's own line editor and history (11 Nov 2026)
+
+**Decision.** Suggestions and history recall are delivered through bash's own mechanisms: readline key bindings (`bind -x`), programmable Tab completion (`complete`), the `PROMPT_COMMAND` hook for recording, and `~/.bash_history` as a starting history. Task 4 compares the concrete options, including whether inline grey suggestions are possible within readline.
+
+**Why.** Supervisor feedback asked how bash already does completion and history recall. Building on them keeps the assistant familiar, lightweight and installable on any server with bash.
+
+## D7 — Next-word prediction as language modelling (11 Nov 2026)
+
+**Decision.** Treat predicting the next word of a command as a language-modelling problem: n-gram models over command words as the traditional technique (P4), and a neural language model as the AI component (P5).
+
+**Why.** Supervisor feedback suggested using NLP mechanisms for "what comes next". This fits the analysis: word-by-word completion is where most keystrokes are saved (D3), and the existing sequence predictor is already a simple n-gram model over whole commands.

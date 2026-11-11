@@ -2,7 +2,7 @@
 
 Honours Stage Project **LBS-26-1112** · Oluwapelumi Adunola · BSc Computer Science with Industrial Placement · Supervisor: Jan Springer
 
-A terminal assistant that suggests commands as you type in bash and zsh, on Linux (including remote servers over SSH) and macOS. It learns from your command history and local context (working directory, Git state, the last command and its exit status), and keeps everything on your machine. Traditional prediction techniques (heuristic frequency and recency ranking, POSIX-based command parsing, sequence models) are combined with an AI component, and the project measures how much each technique and each kind of context actually helps.
+A terminal assistant that suggests commands as you type in bash on Linux, including on remote servers over SSH. It learns from your command history and local context (working directory, Git state, the last command and its exit status), and keeps everything on your machine. Traditional prediction techniques (heuristic frequency and recency ranking, POSIX-based command parsing, sequence models) are combined with an AI component, and the project measures how much each technique and each kind of context actually helps.
 
 ## Status
 
@@ -38,7 +38,7 @@ pytest
 
 sh scripts/fetch_schonlau.sh          # then download the KYPO data, see data/README.md
 cta-analyse                           # regenerates docs/analysis/usage-patterns.md
-cta-analyse --own ~/.zsh_history      # optionally include your own history (output stays local)
+cta-analyse --own ~/.bash_history     # optionally include your own history (output stays local)
 ```
 
 ## Data and privacy
