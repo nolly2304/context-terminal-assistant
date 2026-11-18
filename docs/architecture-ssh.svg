@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" font-family="Arial, Helvetica, sans-serif" font-size="12" role="img" aria-label="Where each component runs over SSH">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#111"/></marker>
+  </defs>
+
+  <!-- Laptop -->
+  <rect x="10" y="40" width="190" height="230" rx="8" fill="#f4f4f4" stroke="#111" stroke-width="1.5"/>
+  <text x="105" y="30" text-anchor="middle" font-weight="bold" font-size="13">Your laptop</text>
+  <rect x="30" y="70" width="150" height="50" rx="5" fill="#fff" stroke="#111"/>
+  <text x="105" y="92" text-anchor="middle">Terminal app</text>
+  <text x="105" y="108" text-anchor="middle" fill="#444" font-size="11">shows the screen</text>
+  <rect x="30" y="140" width="150" height="50" rx="5" fill="#fff" stroke="#111"/>
+  <text x="105" y="162" text-anchor="middle">ssh client</text>
+  <text x="105" y="178" text-anchor="middle" fill="#444" font-size="11">nothing installed</text>
+  <text x="105" y="215" text-anchor="middle" fill="#444" font-size="11">No history, context or</text>
+  <text x="105" y="230" text-anchor="middle" fill="#444" font-size="11">model from the server</text>
+  <text x="105" y="245" text-anchor="middle" fill="#444" font-size="11">is ever stored here</text>
+
+  <!-- SSH connection -->
+  <rect x="215" y="130" width="150" height="70" rx="6" fill="#fff" stroke="#111" stroke-dasharray="5 4"/>
+  <text x="290" y="122" text-anchor="middle" font-weight="bold">SSH connection</text>
+  <text x="290" y="216" text-anchor="middle" fill="#444" font-size="11">(encrypted)</text>
+  <line x1="222" y1="152" x2="358" y2="152" stroke="#111" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="290" y="147" text-anchor="middle" font-size="11">keystrokes</text>
+  <line x1="358" y1="180" x2="222" y2="180" stroke="#111" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="290" y="175" text-anchor="middle" font-size="11">screen output</text>
+  <text x="290" y="240" text-anchor="middle" font-size="11" font-weight="bold">Same traffic as plain SSH.</text>
+  <text x="290" y="255" text-anchor="middle" font-size="11" font-weight="bold">Nothing else crosses.</text>
+
+  <!-- Server -->
+  <rect x="380" y="40" width="370" height="310" rx="8" fill="#f4f4f4" stroke="#111" stroke-width="1.5"/>
+  <text x="565" y="30" text-anchor="middle" font-weight="bold" font-size="13">Remote Linux server (where bash runs)</text>
+
+  <rect x="400" y="60" width="330" height="56" rx="5" fill="#fff" stroke="#111"/>
+  <text x="565" y="80" text-anchor="middle" font-weight="bold">bash 4.4+ with the assistant's integration</text>
+  <text x="565" y="96" text-anchor="middle" font-size="11">key binding · Tab completion · Ctrl+R recall</text>
+  <text x="565" y="110" text-anchor="middle" font-size="11" fill="#444">+ inline grey suggestions via ble.sh (Stage 2)</text>
+
+  <rect x="400" y="150" width="150" height="56" rx="5" fill="#fff" stroke="#111"/>
+  <text x="475" y="172" text-anchor="middle" font-weight="bold">Recorder</text>
+  <text x="475" y="188" text-anchor="middle" font-size="11">PROMPT_COMMAND hook</text>
+  <text x="475" y="200" text-anchor="middle" font-size="11" fill="#444">redacts secrets first</text>
+
+  <rect x="580" y="150" width="150" height="56" rx="5" fill="#fff" stroke="#111"/>
+  <text x="655" y="172" text-anchor="middle" font-weight="bold">Traditional engine</text>
+  <text x="655" y="188" text-anchor="middle" font-size="11">resident process</text>
+  <text x="655" y="200" text-anchor="middle" font-size="11" fill="#444">≤ 50 ms, ≤ 200 MB</text>
+
+  <rect x="400" y="240" width="150" height="56" rx="5" fill="#fff" stroke="#111"/>
+  <text x="475" y="262" text-anchor="middle" font-weight="bold">Local store</text>
+  <text x="475" y="278" text-anchor="middle" font-size="11">history + context</text>
+  <text x="475" y="290" text-anchor="middle" font-size="11" fill="#444">file mode 600</text>
+
+  <rect x="580" y="240" width="150" height="56" rx="5" fill="#fff" stroke="#111" stroke-dasharray="5 4"/>
+  <text x="655" y="262" text-anchor="middle" font-weight="bold">AI component</text>
+  <text x="655" y="278" text-anchor="middle" font-size="11">small local model</text>
+  <text x="655" y="290" text-anchor="middle" font-size="11" fill="#444">only if memory allows</text>
+
+  <!-- arrows inside server -->
+  <line x1="475" y1="116" x2="475" y2="148" stroke="#111" marker-end="url(#a)"/>
+  <text x="481" y="136" font-size="10">each command</text>
+  <line x1="640" y1="148" x2="640" y2="118" stroke="#111" marker-end="url(#a)"/>
+  <line x1="670" y1="118" x2="670" y2="148" stroke="#111" marker-end="url(#a)"/>
+  <text x="676" y="136" font-size="10">typed so far</text>
+  <text x="596" y="136" font-size="10">suggestions</text>
+  <line x1="475" y1="206" x2="475" y2="238" stroke="#111" marker-end="url(#a)"/>
+  <line x1="580" y1="200" x2="552" y2="245" stroke="#111" marker-end="url(#a)"/>
+  <text x="530" y="226" font-size="10" text-anchor="end">reads</text>
+  <line x1="655" y1="206" x2="655" y2="238" stroke="#111" marker-end="url(#a)" marker-start="url(#a)"/>
+  <text x="661" y="226" font-size="10">re-rank</text>
+
+  <text x="565" y="325" text-anchor="middle" font-size="11" fill="#444">Requires only bash, Python 3 and no extra network access</text>
+</svg>

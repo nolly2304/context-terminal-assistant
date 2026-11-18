@@ -45,3 +45,27 @@ Short records of design and technology decisions, with the evidence behind them.
 **Decision.** Treat predicting the next word of a command as a language-modelling problem: n-gram models over command words as the traditional technique (P4), and a neural language model as the AI component (P5).
 
 **Why.** Supervisor feedback suggested using NLP mechanisms for "what comes next". This fits the analysis: word-by-word completion is where most keystrokes are saved (D3), and the existing sequence predictor is already a simple n-gram model over whole commands.
+
+## D8 — A minimum core, with later stages dropped from the end if late (18 Nov 2026)
+
+**Decision.** The core is bash on a local Linux machine with recording, the traditional engine, key-binding and Tab suggestions, AI re-ranking, privacy controls, and the full evaluation (offline replay, heuristic evaluation, user study). Inline grey suggestions (Stage 2), SSH (Stage 3), macOS (Stage 4) and the secondary objectives follow in that order. See requirements §2.
+
+**Why.** Supervisor feedback: requiring all eight objectives on 12–15 hours a week is risky, and the old contingency only dropped secondary objectives. With stages, a late feature never threatens the core or the evaluation.
+
+## D9 — Over SSH, everything runs on the server (18 Nov 2026)
+
+**Decision.** In the SSH case, the bash integration, recorder, store and traditional engine run on the server, where the shell runs. The AI component runs there only if the server has enough memory; otherwise it is off. Nothing beyond normal terminal traffic crosses the connection. A laptop-side model reached through an SSH tunnel is not planned; it would be opt-in with redaction only.
+
+**Why.** Supervisor feedback: history must stay on the machine where the shell runs, a free-tier server cannot run even a small model, and running the model on the laptop would send context off the server. Keeping the traditional engine small (≤ 200 MB, N9) means the useful part works on any server.
+
+## D10 — The AI component re-ranks, and generates only on request (18 Nov 2026)
+
+**Decision.** The language model re-ranks the traditional engine's top candidates (replacing the suggestion only if ready within 300 ms), and generates a command only when the user presses a key for it. It never generates on every keystroke.
+
+**Why.** Supervisor feedback: one second is too slow while typing. Re-ranking keeps typing fast, still lets the evaluation measure what the AI adds, and on-request generation covers commands the user has never typed.
+
+## D11 — Volunteers share aggregate results only (18 Nov 2026, proposed)
+
+**Decision.** Volunteers run the logger and replay harness on their own machines and send only aggregate results. No raw history is collected, released or submitted. The PDD's "anonymised datasets" deliverable becomes "the replay harness and aggregate results".
+
+**Why.** Supervisor feedback: volunteered histories are personal data and may contain secrets even after redaction, and the PDD both promised a dataset and promised deletion. Collecting only aggregates removes the conflict and the risk. To be confirmed with the supervisor against the ethics checklist.
