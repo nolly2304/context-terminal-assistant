@@ -9,38 +9,45 @@ import pytest
 
 from cta.datasets import ctalog
 
-SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "cta-log.bash"
+SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
+SHELLS = {
+    # shell: (logger script, command to start a clean interactive shell, version check)
+    "zsh": (SCRIPTS / "cta-log.zsh", ["zsh", "-f", "-i"],
+            "autoload -Uz is-at-least; is-at-least 5.8 && echo ok"),
+    "bash": (SCRIPTS / "cta-log.bash", ["bash", "--norc", "--noprofile", "-i"],
+             "(( BASH_VERSINFO[0] * 10 + BASH_VERSINFO[1] >= 44 )) && echo ok"),
+}
 
 
-def _bash_ok() -> bool:
-    bash = shutil.which("bash")
-    if not bash:
+def _shell_ok(shell: str) -> bool:
+    if not shutil.which(shell) or not shutil.which("git"):
         return False
-    out = subprocess.run([bash, "-c", "echo ${BASH_VERSINFO[0]}${BASH_VERSINFO[1]}"],
-                         capture_output=True, text=True).stdout.strip()
-    return out.isdigit() and int(out) >= 44 and shutil.which("git") is not None
+    out = subprocess.run([shell, "-c", SHELLS[shell][2]], capture_output=True, text=True)
+    return out.stdout.strip() == "ok"
 
 
-def _run_bash(tmp_path: Path, script: str) -> list[dict]:
+def _run_shell(shell: str, tmp_path: Path, script: str) -> list[dict]:
     home = tmp_path / "home"
     home.mkdir()
-    env = {"HOME": str(home), "HISTFILE": str(home / ".bash_history"), "TERM": "dumb",
+    env = {"HOME": str(home), "HISTFILE": str(home / ".history"), "TERM": "dumb",
            "PATH": os.environ["PATH"]}
-    subprocess.run(["bash", "--norc", "--noprofile", "-i"], input=script, text=True,
+    subprocess.run(SHELLS[shell][1], input=script, text=True,
                    env=env, cwd=tmp_path, capture_output=True, timeout=60)
     log = home / ".local" / "share" / "cta" / "log.jsonl"
     assert stat.S_IMODE(log.stat().st_mode) == 0o600
     return [json.loads(line) for line in log.read_text().splitlines()]
 
 
-@pytest.mark.skipif(not _bash_ok(), reason="needs bash 4.4+ and git")
-def test_logger_records_context_in_a_real_bash(tmp_path):
+@pytest.mark.parametrize("shell", ["zsh", "bash"])
+def test_logger_records_context_in_a_real_shell(shell, tmp_path):
+    if not _shell_ok(shell):
+        pytest.skip(f"needs {shell} (zsh 5.8+ or bash 4.4+) and git")
     repo = tmp_path / "repo"
     repo.mkdir()
     subprocess.run(["git", "init", "-q"], cwd=repo, check=True)
     subprocess.run(["git", "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q",
                     "--allow-empty", "-m", "init"], cwd=repo, check=True)
-    records = _run_bash(tmp_path, f"""source {SCRIPT}
+    records = _run_shell(shell, tmp_path, f"""source {SHELLS[shell][0]}
 echo hello
 false
 cd {repo}
