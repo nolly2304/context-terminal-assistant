@@ -30,11 +30,15 @@ Short records of design and technology decisions, with the evidence behind them.
 
 ## D5 — Bash only (11 Nov 2026)
 
+**Status.** Superseded by D12 (18 Nov 2026).
+
 **Decision.** The assistant targets bash 4.4+ on Linux, including remote servers over SSH. Zsh, fish and PowerShell are out of scope; macOS is supported only with a modern bash installed. This narrows the PDD, which planned bash and zsh.
 
 **Why.** Supervisor feedback: POSIX is the base command line, bash is the standard shell built on it, and PowerShell is not POSIX-compatible. Bash is also the default on the Linux servers the project targets, and focusing on one shell leaves more time for prediction and evaluation.
 
 ## D6 — Build on bash's own line editor and history (11 Nov 2026)
+
+**Status.** Superseded by D12 (18 Nov 2026).
 
 **Decision.** Suggestions and history recall are delivered through bash's own mechanisms: readline key bindings (`bind -x`), programmable Tab completion (`complete`), the `PROMPT_COMMAND` hook for recording, and `~/.bash_history` as a starting history. Task 4 compares the concrete options, including whether inline grey suggestions are possible within readline.
 
@@ -54,7 +58,7 @@ Short records of design and technology decisions, with the evidence behind them.
 
 ## D9 — Over SSH, everything runs on the server (18 Nov 2026)
 
-**Decision.** In the SSH case, the bash integration, recorder, store and traditional engine run on the server, where the shell runs. The AI component runs there only if the server has enough memory; otherwise it is off. Nothing beyond normal terminal traffic crosses the connection. A laptop-side model reached through an SSH tunnel is not planned; it would be opt-in with redaction only.
+**Decision.** In the SSH case, the shell integration, recorder, store and traditional engine run on the server, where the shell runs. The AI component runs there only if the server has enough memory; otherwise it is off. Nothing beyond normal terminal traffic crosses the connection. A laptop-side model reached through an SSH tunnel is not planned; it would be opt-in with redaction only.
 
 **Why.** Supervisor feedback: history must stay on the machine where the shell runs, a free-tier server cannot run even a small model, and running the model on the laptop would send context off the server. Keeping the traditional engine small (≤ 200 MB, N9) means the useful part works on any server.
 
@@ -69,3 +73,10 @@ Short records of design and technology decisions, with the evidence behind them.
 **Decision.** Volunteers run the logger and replay harness on their own machines and send only aggregate results. No raw history is collected, released or submitted. The PDD's "anonymised datasets" deliverable becomes "the replay harness and aggregate results".
 
 **Why.** Supervisor feedback: volunteered histories are personal data and may contain secrets even after redaction, and the PDD both promised a dataset and promised deletion. Collecting only aggregates removes the conflict and the risk. To be confirmed with the supervisor against the ethics checklist.
+
+## D12 — Zsh on Linux is the core; bash becomes Stage 4 (18 Nov 2026)
+
+**Decision.** The core targets zsh 5.8+ on Linux, using zsh's own mechanisms: the line editor (ZLE) for inline suggestions, the completion system for Tab, and the `preexec`/`precmd` hooks for recording. Stages follow in this order: macOS (Stage 2), a remote server over SSH with zsh installed (Stage 3), and bash (Stage 4). This replaces D5 and D6.
+
+**Why.** The supervisor's written feedback (12 Nov) pointed out that inline suggestions are much harder in bash than in zsh, and proposed zsh on Linux as the minimum core with bash, macOS and SSH staged after it. Zsh's line editor supports inline suggestions directly, so the core can include them; bash needs an add-on (ble.sh) for the same thing. The context logger has a version for each shell, so data collection does not depend on this choice. The supervisor's earlier verbal comment was "bash only", so this order is to be confirmed with him.
+

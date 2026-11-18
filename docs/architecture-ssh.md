@@ -6,8 +6,8 @@
 
 | Component | Local use | Over SSH |
 |---|---|---|
-| Bash integration (key binding, Tab completion, Ctrl+R recall, ble.sh inline) | Laptop | Server |
-| Recorder (`PROMPT_COMMAND` hook, redacts secrets first) | Laptop | Server |
+| Shell integration (zsh line editor: inline suggestions, Tab completion, Ctrl+R recall) | Laptop | Server, with zsh installed there |
+| Recorder (zsh `preexec`/`precmd` hooks, redacts secrets first) | Laptop | Server |
 | Local store (history and context, file mode 600) | Laptop | Server |
 | Traditional engine (resident process, ≤ 50 ms, ≤ 200 MB) | Laptop | Server |
 | AI component (small local model: re-ranks; generates on request) | Laptop | Server, only if it has enough memory; otherwise off |
@@ -26,4 +26,6 @@ The AI component is evaluated offline with the replay harness on the laptop (P7)
 
 **Speed over SSH.** The 50 ms target (N1) is measured on the server, from key press to suggestion ready. Network time is excluded, because every keystroke crosses the network with or without the assistant.
 
-**Order of delivery.** Local use is the core. SSH is Stage 3, after inline suggestions (requirements §2). If it is late, the user study runs on a local Linux virtual machine instead.
+**The server's shell.** Most Linux servers default to bash, so Stage 3 installs zsh on the server (one package). Bash itself is supported in Stage 4.
+
+**Order of delivery.** Local zsh on Linux is the core; macOS is Stage 2 and SSH Stage 3 (requirements §2). If SSH is late, the user study runs on a local Linux virtual machine instead.

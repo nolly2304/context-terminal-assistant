@@ -29,16 +29,16 @@
 
   <!-- Server -->
   <rect x="380" y="40" width="370" height="310" rx="8" fill="#f4f4f4" stroke="#111" stroke-width="1.5"/>
-  <text x="565" y="30" text-anchor="middle" font-weight="bold" font-size="13">Remote Linux server (where bash runs)</text>
+  <text x="565" y="30" text-anchor="middle" font-weight="bold" font-size="13">Remote Linux server (where the shell runs)</text>
 
   <rect x="400" y="60" width="330" height="56" rx="5" fill="#fff" stroke="#111"/>
-  <text x="565" y="80" text-anchor="middle" font-weight="bold">bash 4.4+ with the assistant's integration</text>
-  <text x="565" y="96" text-anchor="middle" font-size="11">key binding · Tab completion · Ctrl+R recall</text>
-  <text x="565" y="110" text-anchor="middle" font-size="11" fill="#444">+ inline grey suggestions via ble.sh (Stage 2)</text>
+  <text x="565" y="80" text-anchor="middle" font-weight="bold">zsh 5.8+ with the assistant's integration</text>
+  <text x="565" y="96" text-anchor="middle" font-size="11">inline suggestions · Tab completion · Ctrl+R recall</text>
+  <text x="565" y="110" text-anchor="middle" font-size="11" fill="#444">(bash in Stage 4)</text>
 
   <rect x="400" y="150" width="150" height="56" rx="5" fill="#fff" stroke="#111"/>
   <text x="475" y="172" text-anchor="middle" font-weight="bold">Recorder</text>
-  <text x="475" y="188" text-anchor="middle" font-size="11">PROMPT_COMMAND hook</text>
+  <text x="475" y="188" text-anchor="middle" font-size="11">preexec / precmd hooks</text>
   <text x="475" y="200" text-anchor="middle" font-size="11" fill="#444">redacts secrets first</text>
 
   <rect x="580" y="150" width="150" height="56" rx="5" fill="#fff" stroke="#111"/>
@@ -69,5 +69,5 @@
   <line x1="655" y1="206" x2="655" y2="238" stroke="#111" marker-end="url(#a)" marker-start="url(#a)"/>
   <text x="661" y="226" font-size="10">re-rank</text>
 
-  <text x="565" y="325" text-anchor="middle" font-size="11" fill="#444">Requires only bash, Python 3 and no extra network access</text>
+  <text x="565" y="325" text-anchor="middle" font-size="11" fill="#444">Requires only zsh, Python 3 and no extra network access</text>
 </svg>

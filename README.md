@@ -2,7 +2,7 @@
 
 Honours Stage Project **LBS-26-1112** · Oluwapelumi Adunola · BSc Computer Science with Industrial Placement · Supervisor: Jan Springer
 
-A terminal assistant that suggests commands as you type in bash on Linux, including on remote servers over SSH. It learns from your command history and local context (working directory, Git state, the last command and its exit status), and keeps everything on your machine. Traditional prediction techniques (heuristic frequency and recency ranking, POSIX-based command parsing, sequence models) are combined with an AI component, and the project measures how much each technique and each kind of context actually helps.
+A terminal assistant that suggests commands as you type, for zsh on Linux first, then macOS, remote servers over SSH, and bash. It learns from your command history and local context (working directory, Git state, the last command and its exit status), and keeps everything on your machine. Traditional prediction techniques (heuristic frequency and recency ranking, POSIX-based command parsing, sequence models) are combined with an AI component, and the project measures how much each technique and each kind of context actually helps.
 
 ## Status
 
@@ -23,7 +23,7 @@ A terminal assistant that suggests commands as you type in bash on Linux, includ
 src/cta/datasets/   loaders that convert each dataset into one common format
 src/cta/analysis/   usage-pattern analysis and baseline predictors (P1)
 tests/              unit tests, run by CI on every push
-scripts/            dataset download helpers and the bash context logger
+scripts/            dataset download helpers and the context loggers (zsh and bash)
 docs/               requirements, analysis results, decision log
 retros/             a short retrospective at the end of each two-week iteration
 data/               local datasets only — ignored by Git, never committed
@@ -38,14 +38,16 @@ pytest
 
 sh scripts/fetch_schonlau.sh          # then download the KYPO data, see data/README.md
 cta-analyse                           # regenerates docs/analysis/usage-patterns.md
-cta-analyse --own ~/.bash_history     # optionally include your own history (output stays local)
+cta-analyse --own ~/.zsh_history      # optionally include your own history (output stays local)
 ```
 
-To record your own commands with their context (directory, Git state, exit status), add this to `~/.bashrc`:
+To record your own commands with their context (directory, Git state, exit status), add this to `~/.zshrc`:
 
 ```sh
-source /path/to/context-terminal-assistant/scripts/cta-log.bash
+source /path/to/context-terminal-assistant/scripts/cta-log.zsh
 ```
+
+For bash, add `source /path/to/context-terminal-assistant/scripts/cta-log.bash` to `~/.bashrc` instead.
 
 The log is written to `~/.local/share/cta/log.jsonl`, readable only by you, and never leaves your machine. Commands typed with a leading space are not recorded.
 
