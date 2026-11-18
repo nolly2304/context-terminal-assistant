@@ -161,19 +161,23 @@ def _full_lines(w, name: str, hs: list[History]) -> None:
           "re-weight suggestions than to filter them.\n")
 
     w("**Keystrokes saved by inline suggestions** (accepting a suggestion costs one key)\n")
+    w("The *recency* row behaves like zsh-autosuggestions and fish, which suggest the most "
+      "recent past command starting with what has been typed. It is the real-world baseline.\n")
     w("| Predictor | Whole-line suggestions | + word-by-word completion |")
     w("|---|---|---|")
-    line_ks: list[float] = []
-    word_ks: list[float] = []
-    for make in (R.Frecency, lambda: R.Markov(order=1)):
+    results: dict[str, tuple[list[float], list[float]]] = {}
+    for make in (R.MostRecent, R.Frecency, lambda: R.Markov(order=1)):
         a = [P.keystroke_savings(h, make) for h in hs]
         b = [P.keystroke_savings(h, make, word_completion=True) for h in hs]
-        if not line_ks:
-            line_ks, word_ks = a, b
+        results[make().name] = (a, b)
         w(f"| {make().name} | {P.summarise(a)} | {P.summarise(b)} |")
     w("")
+    autosuggest = results["recency"][0]
+    line_ks, word_ks = results["frecency"]
     w("Paired gain from word-by-word completion (frecency): "
       f"{P.paired_difference(word_ks, line_ks).points()}.\n")
+    w("Paired gain of frecency with word-by-word completion over the zsh/fish-style baseline: "
+      f"{P.paired_difference(word_ks, autosuggest).points()}.\n")
 
 
 if __name__ == "__main__":

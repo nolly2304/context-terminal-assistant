@@ -65,16 +65,21 @@ _Note:_ here the directory-aware predictor only falls back to the user's overall
 
 **Keystrokes saved by inline suggestions** (accepting a suggestion costs one key)
 
+The *recency* row behaves like zsh-autosuggestions and fish, which suggest the most recent past command starting with what has been typed. It is the real-world baseline.
+
 | Predictor | Whole-line suggestions | + word-by-word completion |
 |---|---|---|
+| recency | 12.8% (11.5%–14.2%) | 30.0% (28.2%–31.7%) |
 | frecency | 13.1% (11.9%–14.4%) | 29.9% (28.2%–31.6%) |
 | markov-1 | 13.0% (11.7%–14.3%) | 30.0% (28.2%–31.7%) |
 
 Paired gain from word-by-word completion (frecency): +16.8 pp (95% CI +15.3 to +18.2; significant, n=227).
+
+Paired gain of frecency with word-by-word completion over the zsh/fish-style baseline: +17.1 pp (95% CI +15.6 to +18.5; significant, n=227).
 
 
 What these results mean for the design is discussed in [requirements.md](../requirements.md) and [decisions.md](../decisions.md). How each measure is calculated: [method.md](method.md).
 
 
 ---
-_Run time: 217 s._
+_Run time: 159 s._
