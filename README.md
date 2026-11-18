@@ -23,7 +23,7 @@ A terminal assistant that suggests commands as you type in bash on Linux, includ
 src/cta/datasets/   loaders that convert each dataset into one common format
 src/cta/analysis/   usage-pattern analysis and baseline predictors (P1)
 tests/              unit tests, run by CI on every push
-scripts/            dataset download helpers
+scripts/            dataset download helpers and the bash context logger
 docs/               requirements, analysis results, decision log
 retros/             a short retrospective at the end of each two-week iteration
 data/               local datasets only — ignored by Git, never committed
@@ -40,6 +40,14 @@ sh scripts/fetch_schonlau.sh          # then download the KYPO data, see data/RE
 cta-analyse                           # regenerates docs/analysis/usage-patterns.md
 cta-analyse --own ~/.bash_history     # optionally include your own history (output stays local)
 ```
+
+To record your own commands with their context (directory, Git state, exit status), add this to `~/.bashrc`:
+
+```sh
+source /path/to/context-terminal-assistant/scripts/cta-log.bash
+```
+
+The log is written to `~/.local/share/cta/log.jsonl`, readable only by you, and never leaves your machine. Commands typed with a leading space are not recorded.
 
 ## Data and privacy
 

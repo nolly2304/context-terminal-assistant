@@ -25,7 +25,9 @@ class CommandEvent:
     cwd: str | None = None
     timestamp: datetime | None = None
     host: str | None = None
-    exit_status: int | None = None
+    exit_status: int | None = None  # exit status of this command (known only after it ran)
+    git_branch: str | None = None  # Git branch when the command was typed, if in a repository
+    git_dirty: bool | None = None  # uncommitted changes to tracked files at that moment
 
     @property
     def program(self) -> str:
