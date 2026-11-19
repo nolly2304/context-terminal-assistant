@@ -150,10 +150,3 @@ Renaming is a useful test because Linux has two different `rename` tools with di
 | Latency | As N1 and N2 |
 | Privacy | As N3 and N4 |
 | Usability | SUS ≥ 68; fewer keystrokes and shorter task times with the assistant (descriptive) |
-
-## 13. Questions for the supervisor
-
-1. I have followed your written feedback: zsh on Linux is the core, and bash is Stage 4. In our earlier meeting you mentioned bash only, so can you confirm this order?
-2. Does the "no further approval" ethics outcome cover volunteers if they share only aggregate results, never their commands (§8)?
-3. Is renaming files by a pattern meant as an example task (§11), or as a feature to support directly (F16)?
-4. Are you happy to agree these requirements?
