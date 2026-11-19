@@ -68,11 +68,11 @@ Short records of design and technology decisions, with the evidence behind them.
 
 **Why.** Supervisor feedback: one second is too slow while typing. Re-ranking keeps typing fast, still lets the evaluation measure what the AI adds, and on-request generation covers commands the user has never typed.
 
-## D11 — Volunteers share aggregate results only (18 Nov 2026, proposed)
+## D11 — Volunteers share aggregate results only (18 Nov 2026; agreed with the supervisor 19 Nov)
 
 **Decision.** Volunteers run the logger and replay harness on their own machines and send only aggregate results. No raw history is collected, released or submitted. The PDD's "anonymised datasets" deliverable becomes "the replay harness and aggregate results".
 
-**Why.** Supervisor feedback: volunteered histories are personal data and may contain secrets even after redaction, and the PDD both promised a dataset and promised deletion. Collecting only aggregates removes the conflict and the risk. To be confirmed with the supervisor against the ethics checklist.
+**Why.** Supervisor feedback: volunteered histories are personal data and may contain secrets even after redaction, and the PDD both promised a dataset and promised deletion. Collecting only aggregates removes the conflict and the risk. Agreed at the supervisor meeting on 19 Nov: volunteers are participants and sign a consent form, and also answer a short usability questionnaire. The costs (no inspection or re-analysis, reruns after a harness bug, results examiners cannot reproduce) are stated in requirements §8.
 
 ## D12 — Zsh on Linux is the core; bash becomes Stage 4 (18 Nov 2026)
 
