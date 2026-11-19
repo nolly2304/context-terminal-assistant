@@ -167,6 +167,38 @@ class ContextFrequency(Predictor):
         self._fallback.update(event)
 
 
+class MatchPrevCmd(Predictor):
+    """zsh-autosuggestions' ``match_prev_cmd`` strategy.
+
+    Prefers the most recent past command that was itself preceded by the command
+    just run; otherwise falls back to the most recent match, as the plugin does.
+    (The plugin only searches the 200 most recent matches; that limit is ignored.)
+    """
+
+    name = "match_prev_cmd"
+
+    def __init__(self, key: Key = by_line) -> None:
+        super().__init__(key)
+        self._last: dict[str, int] = {}
+        self._after: dict[str, dict[str, int]] = defaultdict(dict)
+        self._prev: str | None = None
+        self._t = 0
+
+    def rank(self, context: CommandEvent) -> list[str]:
+        followers = self._after.get(self._prev, {}) if self._prev is not None else {}
+        primary = sorted(followers, key=followers.__getitem__, reverse=True)
+        fallback = sorted(self._last, key=self._last.__getitem__, reverse=True)
+        return _merge(primary, fallback)
+
+    def update(self, event: CommandEvent) -> None:
+        self._t += 1
+        k = self.key(event)
+        if self._prev is not None:
+            self._after[self._prev][k] = self._t
+        self._last[k] = self._t
+        self._prev = k
+
+
 def _merge(primary: list[str], fallback: list[str]) -> list[str]:
     seen = set(primary)
     return primary + [c for c in fallback if c not in seen]

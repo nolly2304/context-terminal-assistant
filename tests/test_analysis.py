@@ -74,3 +74,15 @@ def test_paired_difference_and_points():
     assert "significant" in d.points()
     s = P.summarise([0.2, 0.4])
     assert 0 <= s.low <= s.mean <= s.high <= 1
+
+
+def test_match_prev_cmd_prefers_what_followed_the_previous_command():
+    p = R.MatchPrevCmd()
+    for line in ["make", "make test", "git status", "make", "make install", "git status"]:
+        p.update(CommandEvent("u", 0, line))
+    # After "git status", the line that followed it last time was "make".
+    assert p.rank(CommandEvent("u", 0, ""))[0] == "make"
+    # Typing "make " should suggest the most recent line after "git status" that matches,
+    # which is none, so it falls back to the most recent match overall.
+    ranking = p.rank(CommandEvent("u", 0, ""))
+    assert next(c for c in ranking if c.startswith("make ")) == "make install"

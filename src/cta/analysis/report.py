@@ -146,12 +146,15 @@ def _full_lines(w, name: str, hs: list[History]) -> None:
           f"(max {max(hosts)}).\n")
 
     w("**Next-command prediction (full line)**\n")
-    makers = [R.MostRecent, R.MostFrequent, R.Frecency, lambda: R.Markov(order=1)]
+    makers = [R.MostRecent, R.MatchPrevCmd, R.MostFrequent, R.Frecency,
+              lambda: R.Markov(order=1)]
     if any(h.has("cwd") for h in hs):
         makers.append(lambda: R.ContextFrequency("cwd"))
     if any(h.has("host") for h in hs):
         makers.append(lambda: R.ContextFrequency("host"))
     top1 = _accuracy_table(w, hs, makers)
+    w("Previous-command signal (C2): Markov-1 minus zsh-autosuggestions' match_prev_cmd, "
+      f"top-1: {P.paired_difference(top1['markov-1'], top1['match_prev_cmd']).points()}.\n")
     if "context:cwd" in top1:
         w("Paired difference in top-1, directory-aware minus frecency: "
           f"{P.paired_difference(top1['context:cwd'], top1['frecency']).points()}.\n")
@@ -161,12 +164,14 @@ def _full_lines(w, name: str, hs: list[History]) -> None:
           "re-weight suggestions than to filter them.\n")
 
     w("**Keystrokes saved by inline suggestions** (accepting a suggestion costs one key)\n")
-    w("The *recency* row behaves like zsh-autosuggestions and fish, which suggest the most "
-      "recent past command starting with what has been typed. It is the real-world baseline.\n")
+    w("The *recency* row behaves like zsh-autosuggestions' default `history` strategy and fish, "
+      "which suggest the most recent past command starting with what has been typed. The "
+      "*match_prev_cmd* row is zsh-autosuggestions' strategy that prefers commands which "
+      "followed the previous command. These are the real-world baselines.\n")
     w("| Predictor | Whole-line suggestions | + word-by-word completion |")
     w("|---|---|---|")
     results: dict[str, tuple[list[float], list[float]]] = {}
-    for make in (R.MostRecent, R.Frecency, lambda: R.Markov(order=1)):
+    for make in (R.MostRecent, R.MatchPrevCmd, R.Frecency, lambda: R.Markov(order=1)):
         a = [P.keystroke_savings(h, make) for h in hs]
         b = [P.keystroke_savings(h, make, word_completion=True) for h in hs]
         results[make().name] = (a, b)
@@ -178,6 +183,9 @@ def _full_lines(w, name: str, hs: list[History]) -> None:
       f"{P.paired_difference(word_ks, line_ks).points()}.\n")
     w("Paired gain of frecency with word-by-word completion over the zsh/fish-style baseline: "
       f"{P.paired_difference(word_ks, autosuggest).points()}.\n")
+    w("Previous-command signal (C2) on keystrokes, whole lines, Markov-1 minus match_prev_cmd: "
+      f"{P.paired_difference(results['markov-1'][0], results['match_prev_cmd'][0]).points()}."
+      "\n")
 
 
 if __name__ == "__main__":

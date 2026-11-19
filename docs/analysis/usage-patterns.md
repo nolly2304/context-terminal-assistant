@@ -53,11 +53,14 @@ Bash commands from hands-on cybersecurity training in the KYPO Cyber Range (Šv�
 | Predictor | Top-1 | Top-3 |
 |---|---|---|
 | recency | 6.2% (5.2%–7.2%) | 17.6% (16.2%–19.1%) |
+| match_prev_cmd | 7.7% (6.7%–8.7%) | 18.6% (17.1%–20.2%) |
 | frequency | 10.7% (9.6%–11.9%) | 19.3% (17.6%–21.0%) |
 | frecency | 10.7% (9.6%–11.9%) | 19.4% (17.7%–21.1%) |
 | markov-1 | 11.2% (10.0%–12.5%) | 19.4% (17.7%–21.0%) |
 | context:cwd | 9.3% (8.1%–10.5%) | 16.8% (15.0%–18.5%) |
 | context:host | 9.7% (8.5%–11.0%) | 16.4% (14.7%–18.1%) |
+
+Previous-command signal (C2): Markov-1 minus zsh-autosuggestions' match_prev_cmd, top-1: +3.5 pp (95% CI +2.6 to +4.4; significant, n=227).
 
 Paired difference in top-1, directory-aware minus frecency: -1.4 pp (95% CI -2.0 to -0.9; significant, n=227).
 
@@ -65,11 +68,12 @@ _Note:_ here the directory-aware predictor only falls back to the user's overall
 
 **Keystrokes saved by inline suggestions** (accepting a suggestion costs one key)
 
-The *recency* row behaves like zsh-autosuggestions and fish, which suggest the most recent past command starting with what has been typed. It is the real-world baseline.
+The *recency* row behaves like zsh-autosuggestions' default `history` strategy and fish, which suggest the most recent past command starting with what has been typed. The *match_prev_cmd* row is zsh-autosuggestions' strategy that prefers commands which followed the previous command. These are the real-world baselines.
 
 | Predictor | Whole-line suggestions | + word-by-word completion |
 |---|---|---|
 | recency | 12.8% (11.5%–14.2%) | 30.0% (28.2%–31.7%) |
+| match_prev_cmd | 12.9% (11.5%–14.2%) | 30.1% (28.3%–31.8%) |
 | frecency | 13.1% (11.9%–14.4%) | 29.9% (28.2%–31.6%) |
 | markov-1 | 13.0% (11.7%–14.3%) | 30.0% (28.2%–31.7%) |
 
@@ -77,9 +81,11 @@ Paired gain from word-by-word completion (frecency): +16.8 pp (95% CI +15.3 to +
 
 Paired gain of frecency with word-by-word completion over the zsh/fish-style baseline: +17.1 pp (95% CI +15.6 to +18.5; significant, n=227).
 
+Previous-command signal (C2) on keystrokes, whole lines, Markov-1 minus match_prev_cmd: +0.1 pp (95% CI -0.1 to +0.4; not significant, n=227).
+
 
 What these results mean for the design is discussed in [requirements.md](../requirements.md) and [decisions.md](../decisions.md). How each measure is calculated: [method.md](method.md).
 
 
 ---
-_Run time: 159 s._
+_Run time: 134 s._
