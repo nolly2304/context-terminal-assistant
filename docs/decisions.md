@@ -80,3 +80,13 @@ Short records of design and technology decisions, with the evidence behind them.
 
 **Why.** The supervisor's written feedback (12 Nov) pointed out that inline suggestions are much harder in bash than in zsh, and proposed zsh on Linux as the minimum core with bash, macOS and SSH staged after it. Zsh's line editor supports inline suggestions directly, so the core can include them; bash needs an add-on (ble.sh) for the same thing. The context logger has a version for each shell, so data collection does not depend on this choice. The supervisor's earlier verbal comment was "bash only", so this order is to be confirmed with him.
 
+
+## D13–D17 — Technique and technology selection (25 Nov 2026)
+
+Full comparison and evidence in [technology-selection.md](technology-selection.md).
+
+- **D13 — Inline suggestions through zsh-autosuggestions.** A custom strategy `cta` supplies the suggestion; the plugin draws it, fetches it in the background and accepts it whole or word by word. Keeps the user-study conditions identical apart from suggestion quality.
+- **D14 — A resident engine.** Starting Python per keystroke costs 37–46 ms before any work; querying a resident engine over a Unix socket with zsh's `zsocket` costs 0.06–0.4 ms.
+- **D15 — Parsing: POSIX options plus subcommands learned from history**, with zsh's completion definitions used live where available. Works the same in the replay harness and in the shell.
+- **D16 — Traditional prediction:** whole lines ranked by frecency, previous command and context weights; words by an n-gram model over parsed words.
+- **D17 — AI component: Qwen2.5-Coder-0.5B via llama.cpp (provisional)**, SmolLM2-360M as fallback, confirmed by a speed test on the development laptop in December. Hosted model only as an opt-in for on-request generation.

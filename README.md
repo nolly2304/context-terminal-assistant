@@ -8,8 +8,8 @@ A terminal assistant that suggests commands as you type, for zsh on Linux first,
 
 | Phase | Objective | Due | Status |
 |---|---|---|---|
-| Usage-pattern analysis and requirements | P1 | 13 Nov 2026 | In progress: [analysis](docs/analysis/usage-patterns.md), [requirements draft](docs/requirements.md) |
-| Technique and technology selection | P2 | 27 Nov 2026 | Not started |
+| Usage-pattern analysis and requirements | P1 | 13 Nov 2026 | [Analysis](docs/analysis/usage-patterns.md) done; [requirements](docs/requirements.md) v0.4 with supervisor |
+| Technique and technology selection | P2 | 27 Nov 2026 | Done: [technology selection](docs/technology-selection.md) |
 | Evaluation dataset and replay harness | P3 | 18 Dec 2026 | Not started |
 | Traditional prediction engine | P4 | 5 Feb 2027 | Not started |
 | AI component and hybrid ranking | P5 | 19 Feb 2027 | Not started |
@@ -24,6 +24,7 @@ src/cta/datasets/   loaders that convert each dataset into one common format
 src/cta/analysis/   usage-pattern analysis and baseline predictors (P1)
 tests/              unit tests, run by CI on every push
 scripts/            dataset download helpers and the context loggers (zsh and bash)
+bench/              performance measurements (e.g. engine latency)
 docs/               requirements, analysis results, decision log
 retros/             a short retrospective at the end of each two-week iteration
 data/               local datasets only — ignored by Git, never committed
